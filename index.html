@@ -3,154 +3,19 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>OCR</title>
-        <meta name="description" content="An example web app that performs OCR.">
+        <title>Tesseract OCR Demo</title>
+        <meta name="description" content="A demo of the Tesseract library performing OCR on an image.">
         <meta name="author" content="Joey C. DiGiorgio">
-        <style>
-            *
-            {
-                padding: 0px;
-                margin: 0px;
-                font-family: arial;
-                box-sizing: border-box;
-            }
-
-            #announcer
-            {
-                font-size: 1em;
-                margin-top: 1em;
-                text-align: center;
-            }
-
-            .view
-            {
-                width: 100vw;
-                height: 100vh;
-            }
-
-            .frame
-            {
-                position: relative;
-                top: 50%;
-                left: 50%;
-                width: 50%;
-                height: 50%;
-                transform: translate(-50%, -50%);
-            }
-
-            .image-stage
-            {
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-            }
-
-            .image-placeholder
-            {
-                width: 100%;
-                height: 100%;
-                border: 4px dashed #999;
-                border-radius: 16px;
-                background-color: #eeeeee;
-            }
-
-            .click-anchor
-            {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .click-anchor svg
-            {
-                width: 20%;
-                height: 20%;
-                fill: #999999;
-            }
-
-            .click-anchor p
-            {
-                display: block;
-                color: #999999;
-                text-align: center;
-                margin-top: 1em;
-            }
-
-            .image-selector
-            {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .md-text
-            {
-                font-size: 1.5em;
-            }
-
-            button
-            {
-                line-height: 2em;
-                padding-top: 0.25em;
-                padding-bottom: 0.25em;
-                padding-right: 1em;
-                padding-left: 1em;
-            }
-
-            .image-selector p
-            {
-                color: #999999
-            }
-
-            .image-selector input,
-            .image-selector button
-            {
-                margin-top: 1em;
-                margin-bottom: 1em;
-            }
-
-            .image-selector input,
-            .image-selector p,
-            .image-selector div
-            {
-                width: 50%;
-                text-align: center;
-            }
-
-            .image
-            {
-                position: relative;
-                border: 1px solid black;
-            }
-
-            .hidden
-            {
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
-        <svg
-                aria-hidden="true"
-                style="display: none"
-                xmlns="http://www.w3.org/2000/svg"
-                >
+        <svg aria-hidden="true" style="display: none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <symbol id="plus_square_icon" viewBox="0 0 24 24">
+                <symbol id="fa-plus-square-icon" viewBox="0 0 24 24">
                     <g>
-                        <path
-                                d="M12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z"
-                                >
+                        <path d="M12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z">
                         </path>
-                        <path
-                                d="M2 4.5C2 3.11929 3.11929 2 4.5 2H19.5C20.8807 2 22 3.11929 22 4.5V19.5C22 20.8807 20.8807 22 19.5 22H4.5C3.11929 22 2 20.8807 2 19.5V4.5ZM4.5 4C4.22386 4 4 4.22386 4 4.5V19.5C4 19.7761 4.22386 20 4.5 20H19.5C19.7761 20 20 19.7761 20 19.5V4.5C20 4.22386 19.7761 4 19.5 4H4.5Z"
-                                >
+                        <path d="M2 4.5C2 3.11929 3.11929 2 4.5 2H19.5C20.8807 2 22 3.11929 22 4.5V19.5C22 20.8807 20.8807 22 19.5 22H4.5C3.11929 22 2 20.8807 2 19.5V4.5ZM4.5 4C4.22386 4 4 4.22386 4 4.5V19.5C4 19.7761 4.22386 20 4.5 20H19.5C19.7761 20 20 19.7761 20 19.5V4.5C20 4.22386 19.7761 4 19.5 4H4.5Z">
                         </path>
                     </g>
                 </symbol>
@@ -163,20 +28,20 @@
             <div class="view">
                 <div>
                     Vectors and icons by <a href="https://www.svgrepo.com" target="_blank">SVG Repo</a>
-                    <p>Example Images:</p>
+                    <p>Example Image:</p>
                     <p>https://tesseract.projectnaptha.com/img/eng_bw.png</p>
-                </div> 
+                </div>
                 <div class="frame">
                     <div class="image-stage">
                         <div class="image-placeholder">
                             <div class="click-anchor">
                                 <svg>
-                                    <use href="#plus_square_icon">
+                                    <use href="#fa-plus-square-icon">
                                     </use>
                                 </svg>
                                 <p class="md-text">Click to add an image.</p>
                             </div>
-                            <div class="image-selector hidden">
+                            <div class="image-url-selector hidden">
                                 <p class="md-text">Enter an image URL</p>
                                 <input
                                     type="text"
@@ -212,7 +77,10 @@
                 }
             );
         </script>
+        <!--
         <script src='https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js'></script>
+        -->
+        <script src='js/tesseract/4.0.2/tesseract.min.js'></script>
         <script>
             function announce(message)
             {
@@ -247,7 +115,7 @@
                 let clickAnchor = document.querySelector(".click-anchor");
                 clickAnchor.classList.add("hidden");
 
-                let imageSelector = document.querySelector(".image-selector");
+                let imageSelector = document.querySelector(".image-url-selector");
                 imageSelector.classList.remove("hidden");
             }
 
@@ -255,16 +123,13 @@
             {
                 e.stopPropagation();
 
-                let imageSelector = document.querySelector(".frame .image-selector");
+                let imageSelector = document.querySelector(".frame .image-url-selector");
                 imageSelector.classList.add("hidden");
 
                 let clickAnchor = document.querySelector(".click-anchor");
                 clickAnchor.classList.remove("hidden");
 
-                console.log(clickAnchor);
-                console.log(imageSelector);
-
-                let urlInput = document.querySelector(".image-selector input");
+                let urlInput = document.querySelector(".image-url-selector input");
                 urlInput.value = "";
             }
 
@@ -322,12 +187,17 @@
                 let yScale = image.clientHeight / image.naturalHeight;
 
                 let options = { color: "red", thickness: "1", xScale: xScale, yScale: yScale };
+                let ocrResult = "";
+
                 for(let i = 0; i < result.data.words.length; i++)
                 {
                     let word = result.data.words[i];
 
                     drawWordBox(overlay, word, options);
+                    ocrResult += word.text + " ";
                 }
+
+                console.log("Tesseract OCR Result: " + ocrResult);
             }
 
             async function onImageSelectorOkButtonClicked(e)
@@ -335,10 +205,10 @@
                 let imagePlaceholder = document.querySelector(".image-placeholder");
                 imagePlaceholder.classList.add("hidden");
 
-                let imageSelector = document.querySelector(".image-selector");
+                let imageSelector = document.querySelector(".image-url-selector");
                 imageSelector.classList.add("hidden");
 
-                let imageSelectorUrlInput = document.querySelector(".image-selector input");
+                let imageSelectorUrlInput = document.querySelector(".image-url-selector input");
                 let url = imageSelectorUrlInput.value;
 
                 let image = document.querySelector(".image");
@@ -360,10 +230,10 @@
                 placeholder.addEventListener("click", onImagePlaceholderClicked);
 
 
-                let imageSelectorCancelButton = document.querySelector(".image-selector button[data-id='cancel']");
+                let imageSelectorCancelButton = document.querySelector(".image-url-selector button[data-id='cancel']");
                 imageSelectorCancelButton.addEventListener("click", onImageSelectorCancelButtonClicked);
 
-                let imageSelectorOkButton = document.querySelector(".image-selector button[data-id='ok']");
+                let imageSelectorOkButton = document.querySelector(".image-url-selector button[data-id='ok']");
                 imageSelectorOkButton.addEventListener("click", onImageSelectorOkButtonClicked);
             }
 

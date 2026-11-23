@@ -1,0 +1,126 @@
+*
+{
+    padding: 0px;
+    margin: 0px;
+    font-family: arial;
+    box-sizing: border-box;
+}
+
+#announcer
+{
+    font-size: 1em;
+    margin-top: 1em;
+    text-align: center;
+}
+
+.view
+{
+    width: 100vw;
+    height: 100vh;
+}
+
+.frame
+{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.image-stage
+{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.image-placeholder
+{
+    width: 100%;
+    height: 100%;
+    border: 4px dashed #999;
+    border-radius: 16px;
+    background-color: #eeeeee;
+}
+
+.click-anchor
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.click-anchor svg
+{
+    width: 20%;
+    height: 20%;
+    fill: #999999;
+}
+
+.click-anchor p
+{
+    display: block;
+    color: #999999;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.image-url-selector
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.md-text
+{
+    font-size: 1.5em;
+}
+
+button
+{
+    line-height: 2em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.image-url-selector p
+{
+    color: #999999
+}
+
+.image-url-selector input,
+.image-url-selector button
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.image-url-selector input,
+.image-url-selector p,
+.image-url-selector div
+{
+    width: 50%;
+    text-align: center;
+}
+
+.image
+{
+    position: relative;
+    border: 1px solid black;
+}
+
+.hidden
+{
+    display: none;
+}
